@@ -1,24 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Juego</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50vw;
+            height: 50vh;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
     <div id="contenedor"></div>
-    <script language="JavaScript" src="http://185.60.40.210/dwc/Juegos.js"></script>
-    <script language="JavaScript" >
+    <script type="text/javascript" src="http://185.60.40.210/dwc/Juegos.js"></script>
+    <script>
         let f0;
         let c0;
-        function FilaColumna(f, c){
+        
+        function Cambiar(f, c){
+            let img1 = document.getElementById(`aPuzzle${f}${c}`);
+            let img0 = document.getElementById(`aPuzzle${f0}${c0}`);
             //alert("Estas en la fila"+f+" y columna"+c+"")
             if(((f==(f0-1) || f==(f0+1))&& c0==c) || ((c==(c0-1) || c==(c0+1)) && f==f0)){
-               // alert("Posible");
+                // alert("Posible");
+                [img1.src, img0.src] = [img0.src, img1.src];
                 console.log(`${f},${c}`);
-               
-                [document.getElementById(`aPuzzle${f}${c}`).src, document.getElementById(`aPuzzle${f0}${c0}`).src] =
-                [document.getElementById(`aPuzzle${f0}${c0}`).src, document.getElementById(`aPuzzle${f}${c}`).src];
                 f0=f;
                 c0=c;
             }
@@ -26,10 +38,12 @@
                 alert("Imposible");
             }
         }
+
         const contenedor = document.getElementById("contenedor");
         let htmlNumeros = "";
         const n = 4;
         let aPuzzle = [];
+       
         aPuzzle = Aleatorio(n);
         f0 = n - 1;
         c0 = n - 1;
@@ -40,7 +54,7 @@
             let j = 0;
             for(let celda of fila){
                 htmlNumeros += "<td>";
-                htmlNumeros += `<img onClick="FilaColumna(${i},${j})" src="Numeros/n${celda}.gif" id="aPuzzle${i}${j}">`;
+                htmlNumeros += `<img onClick="Cambiar(${i},${j})" src="Numeros/n${celda}.gif" id="aPuzzle${i}${j}">`;
                 htmlNumeros += "</td>";
                 j++;
             }
@@ -52,4 +66,3 @@
     </script>
 </body>
 </html>
-
