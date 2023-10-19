@@ -1,43 +1,55 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 50vw;
-            height: 50vh;
+</head>
+<body>
+    <div id="contenedor"></div>
+    <script language="JavaScript" src="http://185.60.40.210/dwc/Juegos.js"></script>
+    <script language="JavaScript" >
+        let f0;
+        let c0;
+        function FilaColumna(f, c){
+            //alert("Estas en la fila"+f+" y columna"+c+"")
+            if(((f==(f0-1) || f==(f0+1))&& c0==c) || ((c==(c0-1) || c==(c0+1)) && f==f0)){
+               // alert("Posible");
+                console.log(`${f},${c}`);
+               
+                [document.getElementById(`aPuzzle${f}${c}`).src, document.getElementById(`aPuzzle${f0}${c0}`).src] =
+                [document.getElementById(`aPuzzle${f0}${c0}`).src, document.getElementById(`aPuzzle${f}${c}`).src];
+                f0=f;
+                c0=c;
+            }
+            else{
+                alert("Imposible");
+            }
         }
-
-        table, th, td {
-            border: 1px solid black;
+        const contenedor = document.getElementById("contenedor");
+        let htmlNumeros = "";
+        const n = 4;
+        let aPuzzle = [];
+        aPuzzle = Aleatorio(n);
+        f0 = n - 1;
+        c0 = n - 1;
+        htmlNumeros += "<table border='1'>";
+        let i = 0;
+        for(let fila of aPuzzle){
+            htmlNumeros += "<tr>";
+            let j = 0;
+            for(let celda of fila){
+                htmlNumeros += "<td>";
+                htmlNumeros += `<img onClick="FilaColumna(${i},${j})" src="Numeros/n${celda}.gif" id="aPuzzle${i}${j}">`;
+                htmlNumeros += "</td>";
+                j++;
+            }
+            htmlNumeros += "</tr>";
+            i++;
         }
-    </style>
-  </head>
-  <body>
-    <script language="JavaScript" src="http://185.60.40.210/dwc/Juegos.js" ></script>
-    <script>
-      function Cambiar(f,c) {
-        alert("Estas en la fila" + f + " columna"+c);
-        
-      }
-    const N=4;
-    const aPuzzle=Aleatorio(N);
-    let sHtml = " ";
-    sHtml+="<table>";
-    for (let f = 0; f < N; f++) { //Crear filas
-        sHtml+="<tr>";
-        for (let c = 0; c < N; c++) { //Crear columnas
-         sHtml+=`<td><img  src="Numeros/n${aPuzzle[f][c]}.gif" id="imBola${f+""+c}" 
-          onclick="Cambiar(`+ f + `,` + c + `)";</td>` 
-        }
-        sHtml+="</tr>"
-    }
-    sHtml+="</table>"
-    document.write(sHtml);
-
+        htmlNumeros += "</table>";
+        contenedor.innerHTML = htmlNumeros;
     </script>
-  </body>
+</body>
 </html>
+
